@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mongo-deploy
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: volume
+    spec:
+      containers:
+        - name: mongo
+          image: mongo
+          ports:
+            - name: mongo
+              containerPort: 27017
+          volumeMounts:
+          - name: mongovol
+            mountPath: "/data/db"
+      volumes:
+         - name: mongovol
+           persistentVolumeClaim:
+             claimName: mongo-pvc

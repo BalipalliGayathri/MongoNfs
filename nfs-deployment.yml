@@ -1,0 +1,25 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: nfs-nginx
+spec:
+  replicas: 3 
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+        - name: nginx-web
+          image: nginx
+          ports:
+            - name: tomcat-port1
+              containerPort: 8089
+          volumeMounts:
+          - name: mypd
+            mountPath: "/usr/share/nginx/html"
+      volumes:
+         - name: mypd
+           persistentVolumeClaim:
+             claimName: my-pvc1
+          
